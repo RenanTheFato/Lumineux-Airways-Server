@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import { routes } from "./routes.js";
 
 dotenv.config()
 
@@ -44,6 +45,8 @@ async function start() {
       title: "Lumineux Airways - User Micro-Service"
     }
   })
+
+  await server.register(routes)
 
   await server.listen({
     host: HOST || '0.0.0.0',
