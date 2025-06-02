@@ -5,16 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch ./src/server.ts"
+    "dev": "tsx --watch ./src/server.ts",
+    "test": "dotenv -e .env.test -- prisma migrate reset --force --skip-seed && vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^22.15.29",
+    "dotenv-cli": "^8.0.0",
     "prisma": "^6.8.2",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.0"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",

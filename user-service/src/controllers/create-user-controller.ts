@@ -2,6 +2,7 @@ import { hash } from "bcryptjs";
 import { FastifyReply, FastifyRequest } from "fastify";
 import path from "path";
 import { z } from "zod";
+import { CreateUserService } from "../services/create-user-service.js";
 
 export class CreateUserController {
 	async handle(req: FastifyRequest, rep: FastifyReply) {
@@ -45,6 +46,15 @@ export class CreateUserController {
 		}
 
 		const hashedPassword = await hash(password, 10)
+
+		try {
+			const createUserService = new CreateUserService()
+			await createUserService.execute({ email, password: hashedPassword, name, last_name })
+
+			return rep.status(201).send({ message: "User Created"	})
+		} catch (error: any) {
+			return rep.status(400).send({ error: error.message })
+		}
 
 	}
 
