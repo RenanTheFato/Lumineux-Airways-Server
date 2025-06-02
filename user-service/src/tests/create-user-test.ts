@@ -68,10 +68,10 @@ describe('Create User', () => {
       method: 'POST',
       url: "/create-user",
       payload: {
-        email: 'weak@example.com',
-        password: '1234',
-        name: 'John',
-        last_name: 'Doe'
+        email: "weak@example.com",
+        password: "1234",
+        name: "John",
+        last_name: "Doe"
       }
     })
 
@@ -83,10 +83,10 @@ describe('Create User', () => {
   it('should fail when email is already in use', async () => {
     await prisma.users.create({
       data: {
-        email: 'exists@example.com',
-        password: 'hashedpassword',
-        name: 'Jane',
-        last_name: 'Doe'
+        email: "exists@example.com",
+        password: "hashedpassword",
+        name: "Jane",
+        last_name: "Doe"
       }
     })
 
@@ -94,10 +94,10 @@ describe('Create User', () => {
       method: 'POST',
       url: "/create-user",
       payload: {
-        email: 'exists@example.com',
-        password: 'Password@1',
-        name: 'Jane',
-        last_name: 'Doe'
+        email: "exists@example.com",
+        password: "Password@1",
+        name: "Jane",
+        last_name: "Doe"
       }
     })
 
@@ -111,10 +111,10 @@ describe('Create User', () => {
       method: 'POST',
       url: "/create-user",
       payload: {
-        email: 'same@example.com',
-        password: 'Password@1',
-        name: 'John',
-        last_name: 'john'
+        email: "same@example.com",
+        password: "Password@1",
+        name: "John",
+        last_name: "john"
       }
     })
 
