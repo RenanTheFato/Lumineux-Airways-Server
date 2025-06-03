@@ -1,34 +1,24 @@
-import { fastify } from "fastify";
+import { app } from "./config/server-config-tests.js";
 import { routes } from "../routes.js";
 import { prisma } from "../../config/prisma.js";
-import { describe, it, beforeEach, afterAll, expect } from "vitest";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import dotenv from "dotenv";
+import { describe, it, beforeEach, afterAll, expect, beforeAll } from "vitest";
 
-dotenv.config({ path: "../../.env.test" })
-
-
-async function userTests() {
-  const app = fastify().withTypeProvider<ZodTypeProvider>()
-
-  await app.register(routes)
-  return app
-}
-
-describe('Create User', () => {
-  const app = userTests()
+describe('Create User', async () => {
+  beforeAll(async () => {
+    await app.register(routes)
+  })
 
   beforeEach(async () => {
     await prisma.users.deleteMany()
   })
 
   afterAll(async () => {
-    (await app).close()
+    await app.close()
     await prisma.$disconnect()
   })
 
   it('should create a user successfully', async () => {
-    const response = (await app).inject({
+    const response = await app.inject({
       method: "POST",
       url: "/create-user",
       payload: {
@@ -39,13 +29,13 @@ describe('Create User', () => {
       }
     })
 
-    expect((await response).statusCode).toBe(201)
-    const body = JSON.parse((await response).body)
+    expect(response.statusCode).toBe(201)
+    const body = JSON.parse(response.body)
     expect(body).toEqual({ message: "User Created" })
   })
 
   it("should fail with email is invalid", async () => {
-    const response = (await app).inject({
+    const response = await app.inject({
       method: "POST",
       url: "/create-user",
       payload: {
@@ -56,15 +46,15 @@ describe('Create User', () => {
       }
     })
 
-    expect((await response).statusCode).toBe(400)
-    const body = JSON.parse((await response).body)
+    expect(response.statusCode).toBe(400)
+    const body = JSON.parse(response.body)
 
     expect(body.error).toEqual("Bad Request")
   })
 
 
   it('should fail when password is weak', async () => {
-    const response = (await app).inject({
+    const response = await app.inject({
       method: 'POST',
       url: "/create-user",
       payload: {
@@ -75,8 +65,8 @@ describe('Create User', () => {
       }
     })
 
-    expect((await response).statusCode).toBe(400)
-    const body = JSON.parse((await response).body)
+    expect(response.statusCode).toBe(400)
+    const body = JSON.parse(response.body)
     expect(body.error).toBe('Bad Request')
   })
 
@@ -90,7 +80,7 @@ describe('Create User', () => {
       }
     })
 
-    const response = (await app).inject({
+    const response = await app.inject({
       method: 'POST',
       url: "/create-user",
       payload: {
@@ -101,13 +91,13 @@ describe('Create User', () => {
       }
     })
 
-    expect((await response).statusCode).toBe(400)
-    const body = JSON.parse((await response).body)
+    expect(response.statusCode).toBe(400)
+    const body = JSON.parse(response.body)
     expect(body.error).toBe('The email is already in use')
   })
 
   it('should fail when name and last name are the same', async () => {
-    const response = (await app).inject({
+    const response = await app.inject({
       method: 'POST',
       url: "/create-user",
       payload: {
@@ -118,8 +108,8 @@ describe('Create User', () => {
       }
     })
 
-    expect((await response).statusCode).toBe(400)
-    const body = JSON.parse((await response).body)
+    expect(response.statusCode).toBe(400)
+    const body = JSON.parse(response.body)
     expect(body.error).toBe('Bad Request')
     expect(body.message).toBe("The name and last name mustn't be the same.")
   })
