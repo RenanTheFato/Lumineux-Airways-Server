@@ -9,12 +9,12 @@ describe('Create User', async () => {
   })
 
   beforeEach(async () => {
-    await prisma.users.deleteMany()
   })
-
+  
   afterAll(async () => {
-    await app.close()
+    await prisma.users.deleteMany()
     await prisma.$disconnect()
+    await app.close()
   })
 
   it('should create a user successfully', async () => {
@@ -48,7 +48,6 @@ describe('Create User', async () => {
 
     expect(response.statusCode).toBe(400)
     const body = JSON.parse(response.body)
-
     expect(body.error).toEqual("Bad Request")
   })
 
