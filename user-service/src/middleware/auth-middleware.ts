@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import jwt from "jsonwebtoken";
 import { prisma } from "../../config/prisma.js";
+import jwt from "jsonwebtoken";
 
 interface PayLoad {
   id: string,
@@ -14,7 +14,7 @@ export async function authorization(req: FastifyRequest, rep: FastifyReply) {
     return rep.status(401).send({ error: "Bearer Token is missing." })
   }
 
-  const token = authorization.split("")[1]
+  const token = authorization.split(" ")[1]
 
   try {
     const { id } = jwt.verify(token, String(process.env.JWT_SECRET)) as PayLoad

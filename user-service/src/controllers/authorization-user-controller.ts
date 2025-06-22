@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { AuthorizationUserService } from "../services/authorization-user-service.js";
+import { z } from "zod";
 
 export class AuthorizationUserController {
   async handle(req: FastifyRequest, rep: FastifyReply) {

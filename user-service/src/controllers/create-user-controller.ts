@@ -1,8 +1,7 @@
-import { hash } from "bcryptjs";
 import { FastifyReply, FastifyRequest } from "fastify";
-import path from "path";
-import { z } from "zod";
 import { CreateUserService } from "../services/create-user-service.js";
+import { hash } from "bcryptjs";
+import { z } from "zod";
 
 export class CreateUserController {
 	async handle(req: FastifyRequest, rep: FastifyReply) {
