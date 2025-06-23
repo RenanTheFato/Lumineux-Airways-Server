@@ -13,8 +13,15 @@ model Users {
   password   String
   name       String
   last_name  String
+  role       Role     @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("users")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
 }

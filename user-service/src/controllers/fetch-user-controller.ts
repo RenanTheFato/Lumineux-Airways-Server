@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { FetchUserService } from "../services/fetch-user-service.js";
-import { User } from "../@types/user-types.js";
 
 export class FetchUserController{
   async handle(req: FastifyRequest, rep: FastifyReply){
