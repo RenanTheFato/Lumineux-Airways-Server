@@ -23,8 +23,8 @@ export class AuthorizationUserController {
 
     try {
       const authorizationUserService = new AuthorizationUserService()
-      const token = await authorizationUserService.execute({ email, password })
 
+      const token = await authorizationUserService.execute({ email, password })
       return rep.status(200).send({ token })
     } catch (error: any) {
       return rep.status(401).send({ error: error.message })
