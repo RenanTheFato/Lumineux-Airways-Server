@@ -28,7 +28,7 @@ export class UserCachedEvents {
     }
   }
 
-  async CacheUserEvent(userData: CachedUser): Promise<void> {
+  async CacheUserEvent(userData: any): Promise<void> {
     try {
       const user: CachedUser = {
         id: userData.id,
